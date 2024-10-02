@@ -1,7 +1,8 @@
 import sqlalchemy as sa 
 import sqlalchemy.orm as so
-from app import app, db
+from app import app, db, mail
 from app.models import User, Post
+from flask_mail import Message
 
 @app.shell_context_processor
 def make_shell_context():
@@ -11,7 +12,8 @@ def make_shell_context():
         'db': db, 
         'User': User, 
         'Post': Post, 
-        'Mine_bd': db
+        'mail': mail,
+        'Message': Message
         }
 
     
