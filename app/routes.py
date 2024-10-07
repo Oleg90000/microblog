@@ -62,7 +62,7 @@ def login():
         user = db.session.scalar(
             sa.select(User).where(User.username == form.username.data))
         if user is None or not user.check_password(form.password.data):
-            flash("Invalid username or password")
+            flash("Invalid username or password", 'error')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
@@ -140,10 +140,10 @@ def follow(username):
         user = db.session.scalar(
             sa.select(User).where(User.username == username))
         if user is None:
-            flash(f'User {username} not found.')
+            flash(f'User {username} not found.', 'error')
             return redirect(url_for('index'))
         if user == current_user:
-            flash('You cannot follow yourself!')
+            flash('You cannot follow yourself!', 'error')
             return redirect(url_for('user', username=username))
         current_user.follow(user)
         db.session.commit()
@@ -161,10 +161,10 @@ def unfollow(username):
         user = db.session.scalar(
             sa.select(User).where(User.username == username))
         if user is None: # если пользователь не найден, например удлен акк
-            flash(f'User {username} not found.')   
+            flash(f'User {username} not found.', 'error')   
             return redirect(url_for('index'))  
         if user == current_user:
-            flash('You cannot unfollow yourself!')
+            flash('You cannot unfollow yourself!', 'error')
             return redirect(url_for('user', username=username))
         current_user.unfollow(user)
         db.session.commit()
@@ -199,6 +199,6 @@ def reset_password(token):
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash('Your assword has been reset.')
+        flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
