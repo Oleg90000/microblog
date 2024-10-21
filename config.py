@@ -14,3 +14,4 @@ class Config:
     LOG_RECIEVERS = ['gobeklitele@gmail.com']  
     POSTS_PER_PAGE=5
     EMAIL_SENDER = os.environ.get('MAIL_USERNAME')
+    LANGUAGES = ['en', 'es', 'ru', 'de']
