@@ -15,3 +15,5 @@ class Config:
     POSTS_PER_PAGE=5
     EMAIL_SENDER = os.environ.get('MAIL_USERNAME')
     LANGUAGES = ['en', 'es', 'ru', 'de']
+    MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
+    MS_TRANSLATOR_API_REGION = os.environ.get('MS_TRANSLATOR_API_REGION') or 'northeurope'

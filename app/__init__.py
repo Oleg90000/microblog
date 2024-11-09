@@ -12,9 +12,11 @@ from flask_babel import Babel, lazy_gettext as _l
 
 def get_locale():
     # return request.accept_languages.best_match(app.config['LANGUAGES'])
-    return 'ru'
+    return 'en'
 
 app = Flask(__name__)
+from app.errors import bp as errors_bp
+app.register_blueprint(errors_bp)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -53,4 +55,4 @@ if app.debug:
     app.logger.info('Microblog startup')
         
 
-from app import routes, models, errors
+from app import models
