@@ -17,7 +17,7 @@
                 <p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
                 {% elif not current_user.is_following(user) %}
                 <p>
-                    <form action="{{ url_for('follow', username=user.username) }}" method="post">
+                    <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value=_('Follow'), class_='btn btn-primary') }}
                     </form>
@@ -27,7 +27,7 @@
                     <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value=_('Unfollow'), class_='btn btn-primary') }}
-                        /form>
+                    </form>
                 </p>
                 {% endif %}
             </td>
@@ -40,6 +40,7 @@
         <ul class="pagination">
             <li class="page-item{% if not prev_url %} disabled{% endif %}">
                 <a class="page-link" href="{{ prev_url }}">
+                    {{ _('Newer posts') }} <span aria-hidden="true">&larr;</span>
                 </a>
             </li>
             <li class="page-item{% if not next_url %} disabled{% endif %}">

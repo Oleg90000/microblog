@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-21 17:41+0300\n"
+"POT-Creation-Date: 2024-11-29 01:08+0300\n"
 "PO-Revision-Date: 2024-10-19 21:54+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/__init__.py:22
+#: app/__init__.py:23
 msgid "Please log in to access this page."
 msgstr "Пожалуйста, войдите, чтобы получить доступ к этой странице."
 
@@ -47,7 +47,7 @@ msgstr "Пароль"
 msgid "Remember Me"
 msgstr "Запомнить меня"
 
-#: app/auth/forms.py:13 app/auth/routes.py:30 app/templates/auth/login.html:2
+#: app/auth/forms.py:13 app/auth/routes.py:30 app/templates/auth/login.html:4
 msgid "Sign In"
 msgstr "Войти"
 
@@ -159,7 +159,7 @@ msgstr "%(username)s сказал %(when)s"
 
 #: app/templates/_post.html:25
 msgid "Translate"
-msgstr ""
+msgstr "Перевести"
 
 #: app/templates/base.html:9
 msgid "Welcome to Microblog"
@@ -182,11 +182,11 @@ msgstr "Выйти"
 msgid "Hi, %(username)s!"
 msgstr "Привет, %(username)s!"
 
-#: app/templates/index.html:18
+#: app/templates/index.html:18 app/templates/user.html:43
 msgid "Newer posts"
 msgstr "Новые посты"
 
-#: app/templates/index.html:23 app/templates/user.html:47
+#: app/templates/index.html:23 app/templates/user.html:48
 msgid "Older posts"
 msgstr "Старые посты"
 
@@ -220,19 +220,19 @@ msgstr "Подписаться"
 msgid "Unfollow"
 msgstr "Отписаться"
 
-#: app/templates/auth/login.html:4
+#: app/templates/auth/login.html:6
 msgid "New User?"
 msgstr "Новый пользователь?"
 
-#: app/templates/auth/login.html:4
+#: app/templates/auth/login.html:6
 msgid "Click to Register!"
 msgstr "Нажмите, чтобы зарегистрироваться!"
 
-#: app/templates/auth/login.html:6
+#: app/templates/auth/login.html:8
 msgid "Forgot Your Password?"
 msgstr "Забыли пароль?"
 
-#: app/templates/auth/login.html:7
+#: app/templates/auth/login.html:9
 msgid "Click to Reset It"
 msgstr "Нажмите, чтобы сбросить"
 

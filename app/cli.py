@@ -1,6 +1,10 @@
 import os
 import click
 from flask import Blueprint
+from app import current_app
+from app.models import Post
+
+
 
 bp = Blueprint('cli', __name__, cli_group=None)
 
@@ -10,6 +14,13 @@ def translate():
     """Translation and localization commands."""
     pass
 
+
+@bp.cli.command()
+def reindex():
+    """Add post to Elasticsearch"""
+    with current_app.app_context():
+        Post.reindex()
+    
 
 @translate.command()
 @click.argument('lang')

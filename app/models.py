@@ -9,6 +9,50 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import db, login
+from app.search import add_to_index, remove_from_index, query_index
+
+ 
+class SearchableMixin(object):
+    @classmethod
+    def search(cls, expression, page, per_page):
+        ids, total = query_index(cls.__tablename__, expression, page, per_page)
+        if total == 0:
+            return [], 0
+        when = []
+        for i in range(len(ids)):
+            when.append((ids[i], i))
+        query = sa.select(cls).where(cls.id.in_(ids)).order_by(
+            db.case(*when, value=cls.id))
+        return db.session.scalars(query), total
+
+    @classmethod
+    def before_commit(cls, session):
+        session._changes = {
+            'add': list(session.new),
+            'update': list(session.dirty),
+            'delete': list(session.deleted)
+        }
+
+    @classmethod
+    def after_commit(cls, session):
+        for obj in session._changes['add']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['update']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['delete']:
+            if isinstance(obj, SearchableMixin):
+                remove_from_index(obj.__tablename__, obj)
+        session._changes = None
+
+    @classmethod
+    def reindex(cls):
+        for obj in db.session.scalars(sa.select(cls)):
+            add_to_index(cls.__tablename__, obj)
+
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 #таблица ассоциаций для подписчиков
 followers = sa.Table(
@@ -73,11 +117,6 @@ class User(UserMixin, db.Model):
         query = sa.select(sa.func.count()).select_from(
             self.followers.select().subquery())
         return db.session.scalar(query)
-    
-    def followers_count(self):
-        query = sa.select(sa.func.count()).select_from(
-            self.followers.select().subquery())
-        return db.session.scalar(query)
         
     def following_count(self):
         query = sa.select(sa.func.count()).select_from(
@@ -112,8 +151,9 @@ class User(UserMixin, db.Model):
         except:
             return
         return db.session.get(User, id)
-    
-class Post(db.Model):
+
+class Post(SearchableMixin, db.Model):
+    __searchable__ = ['body']
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     body: so.Mapped[str] = so.mapped_column(sa.String(140))
     timestamp: so.Mapped[datetime] = so.mapped_column(index=True, default=lambda: datetime.now(timezone.utc))

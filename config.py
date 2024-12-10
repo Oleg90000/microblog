@@ -20,3 +20,4 @@ class Config:
     LANGUAGES = ['en', 'es', 'ru', 'de']
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
     MS_TRANSLATOR_API_REGION = os.environ.get('MS_TRANSLATOR_API_REGION') or 'northeurope'
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
